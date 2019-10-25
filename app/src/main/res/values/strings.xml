@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Pocket Socket</string>
+    <string name="server_label">Server</string>
+    <string name="client_label">Client</string>
+</resources>
