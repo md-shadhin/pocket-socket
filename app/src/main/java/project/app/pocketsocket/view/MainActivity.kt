@@ -1,19 +1,25 @@
 package project.app.pocketsocket.view
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import project.app.pocketsocket.R
-import project.app.pocketsocket.viewmodel.ServerViewModel
+import project.app.pocketsocket.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var serverViewModel: ServerViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        serverViewModel = ViewModelProviders.of(this).get(ServerViewModel::class.java)
+        binding.server.setOnClickListener {
+            startActivity(Intent(this, ServerActivity::class.java))
+        }
+        binding.client.setOnClickListener {
+            startActivity(Intent(this, ConnectActivity::class.java))
+        }
     }
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="#ffffff"
+                  android:orientation="vertical">
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="55dp">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp">
+
+                <TextView
+                        android:id="@+id/ip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_corner"
+                        android:padding="16dp"
+                        android:text=""
+                        android:textColor="#000"/>
+
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+                android:id="@+id/edit_layout"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="#689F38"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+            <EditText
+                    android:id="@+id/edit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.80"
+                    android:textColorHint="#CFD8DC"
+                    android:textColor="#CFD8DC"
+                    android:inputType="text"
+                    android:hint="@string/edit_hint"
+                    tools:ignore="Autofill"/>
+
+            <ImageButton
+                    android:id="@+id/send"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.20"
+                    android:src="@android:drawable/ic_menu_send"
+                    tools:ignore="ContentDescription"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

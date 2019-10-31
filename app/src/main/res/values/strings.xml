@@ -2,4 +2,10 @@
     <string name="app_name">Pocket Socket</string>
     <string name="server_label">Server</string>
     <string name="client_label">Client</string>
+    <string name="no_wifi">No WiFi</string>
+    <string name="connect_input_hint">IP of Server</string>
+    <string name="connect_label">Connect</string>
+    <string name="edit_hint">Write a message</string>
+    <string name="connected_server">Connected server: %s\n</string>
+    <string name="host_server">Server address: %s\n</string>
 </resources>
