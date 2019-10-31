@@ -11,12 +11,12 @@ import java.net.ServerSocket
 
 class ServerViewModel: ViewModel() {
 
-    private lateinit var server: ServerSocket
+    private var server: ServerSocket? = null
     private var scope: CoroutineScope = CoroutineScope(Job()+Dispatchers.IO)
     private var clientNo = 0
     var messageFromClient : MutableLiveData<String> = MutableLiveData()
-    private lateinit var toClient: ObjectOutputStream
-    private lateinit var fromClient: ObjectInputStream
+    private var toClient: ObjectOutputStream? = null
+    private var fromClient: ObjectInputStream? = null
     init {
         try {
             server = ServerSocket(7777)
@@ -31,9 +31,9 @@ class ServerViewModel: ViewModel() {
         super.onCleared()
         scope.cancel()
         try {
-            server.close()
-            fromClient.close()
-            toClient.close()
+            server?.close()
+            fromClient?.close()
+            toClient?.close()
             Log.d("ServerViewModel", "Server closed!")
         }
         catch (e: IOException){
@@ -45,10 +45,10 @@ class ServerViewModel: ViewModel() {
         scope.launch {
             try {
                 while (true){
-                    val socket = server.accept()
+                    val socket = server?.accept()
                     Log.d("ServerViewModel", "Server started!")
-                    fromClient = ObjectInputStream(socket.getInputStream())
-                    toClient = ObjectOutputStream(socket.getOutputStream())
+                    fromClient = ObjectInputStream(socket?.getInputStream())
+                    toClient = ObjectOutputStream(socket?.getOutputStream())
                     clientNo++
                     receiveMessage()
                 }
@@ -63,7 +63,7 @@ class ServerViewModel: ViewModel() {
         scope.launch {
             try {
                 while (true){
-                    val message = fromClient.readObject() as String
+                    val message = fromClient?.readObject() as String
                     messageFromClient.postValue("Client $clientNo: $message\n")
                 }
             }
@@ -76,8 +76,8 @@ class ServerViewModel: ViewModel() {
     fun sendMessage(message: String){
         scope.launch {
             try {
-                toClient.writeObject(message)
-                toClient.flush()
+                toClient?.writeObject(message)
+                toClient?.flush()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
