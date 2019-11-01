@@ -21,7 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.ServerActivity"/>
-        <activity android:name=".view.ConnectActivity"/>
         <activity android:name=".view.ClientActivity"/>
     </application>
 

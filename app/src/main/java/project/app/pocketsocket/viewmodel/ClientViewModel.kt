@@ -17,10 +17,12 @@ class ClientViewModel: ViewModel() {
     private var toServer: ObjectOutputStream? = null
     private var fromServer: ObjectInputStream? = null
     var messageFromServer : MutableLiveData<String> = MutableLiveData()
+    var isServerAvailable : MutableLiveData<Boolean> = MutableLiveData()
 
     override fun onCleared() {
         super.onCleared()
         scope.cancel()
+        isServerAvailable.postValue(false)
         try {
             socket?.close()
             fromServer?.close()
@@ -39,7 +41,9 @@ class ClientViewModel: ViewModel() {
                 toServer = ObjectOutputStream(socket?.getOutputStream())
                 fromServer = ObjectInputStream(socket?.getInputStream())
                 receiveMessage()
+                isServerAvailable.postValue(true)
             } catch (e: IOException) {
+                isServerAvailable.postValue(false)
                 e.printStackTrace()
             }
         }

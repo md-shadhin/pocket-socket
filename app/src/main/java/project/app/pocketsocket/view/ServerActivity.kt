@@ -2,6 +2,7 @@ package project.app.pocketsocket.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +19,10 @@ class ServerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.text)
+
+        binding.connectLayout.visibility = View.GONE
+        binding.messageLayout.visibility = View.VISIBLE
+        binding.editLayout.visibility = View.VISIBLE
 
         binding.ip.text = getString(R.string.host_server, Util.getIp(this))
         serverViewModel = ViewModelProviders.of(this).get(ServerViewModel::class.java)

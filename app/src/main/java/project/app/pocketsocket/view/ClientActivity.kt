@@ -1,12 +1,15 @@
 package project.app.pocketsocket.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import project.app.pocketsocket.R
 import project.app.pocketsocket.databinding.TextBinding
+import project.app.pocketsocket.utils.Util
 import project.app.pocketsocket.viewmodel.ClientViewModel
 
 class ClientActivity : AppCompatActivity() {
@@ -17,12 +20,35 @@ class ClientActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.text)
-        val ip = intent?.extras?.getString("ip")!!
-        binding.ip.text = getString(R.string.connected_server, ip)
+
+        val ip = Util.getIp(this)
+
+
 
         clientViewModel = ViewModelProviders.of(this).get(ClientViewModel::class.java)
-        clientViewModel.connection(ip)
 
+        if(ip != getString(R.string.no_wifi)) {
+            val prefix = ip.substring(0, ip.lastIndexOf(".") + 1)
+            binding.etconnect.setText(prefix)
+            binding.btconnect.setOnClickListener {
+                clientViewModel.connection(binding.etconnect.text.toString())
+            }
+        }
+        clientViewModel.isServerAvailable.observe(this, Observer {isServerAvailable ->
+            if(isServerAvailable){
+                binding.connectLayout.visibility = View.GONE
+                binding.messageLayout.visibility = View.VISIBLE
+                binding.editLayout.visibility = View.VISIBLE
+                binding.ip.text = getString(R.string.connected_server, ip)
+            }
+            else{
+                Toast.makeText(this, "Server not valid!", Toast.LENGTH_SHORT).show()
+                binding.connectLayout.visibility = View.VISIBLE
+                binding.messageLayout.visibility = View.GONE
+                binding.editLayout.visibility = View.GONE
+            }
+
+        })
         clientViewModel.messageFromServer.observe(this, Observer {
             binding.ip.append(it)
         })

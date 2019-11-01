@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ServerActivity::class.java))
         }
         binding.client.setOnClickListener {
-            startActivity(Intent(this, ConnectActivity::class.java))
+            startActivity(Intent(this, ClientActivity::class.java))
         }
     }
 }

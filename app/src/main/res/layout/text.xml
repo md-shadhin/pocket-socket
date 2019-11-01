@@ -8,6 +8,8 @@
                   android:orientation="vertical">
 
         <ScrollView
+                android:id="@+id/message_layout"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="55dp">
@@ -32,6 +34,7 @@
             </LinearLayout>
         </ScrollView>
         <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/edit_layout"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -60,5 +63,42 @@
                     android:src="@android:drawable/ic_menu_send"
                     tools:ignore="ContentDescription"/>
         </LinearLayout>
+
+        <RelativeLayout
+                android:visibility="visible"
+                android:id="@+id/connect_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+            <EditText
+                    android:id="@+id/etconnect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:inputType="textUri"
+                    android:text=""
+                    android:hint="@string/connect_input_hint"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold|italic"
+                    tools:ignore="Autofill"/>
+
+            <Button
+                    android:id="@+id/btconnect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="#00ffff"
+                    android:text="@string/connect_label"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold|italic" />
+
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
