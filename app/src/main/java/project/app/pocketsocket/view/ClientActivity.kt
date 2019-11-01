@@ -23,8 +23,6 @@ class ClientActivity : AppCompatActivity() {
 
         val ip = Util.getIp(this)
 
-
-
         clientViewModel = ViewModelProviders.of(this).get(ClientViewModel::class.java)
 
         if(ip != getString(R.string.no_wifi)) {
@@ -39,7 +37,7 @@ class ClientActivity : AppCompatActivity() {
                 binding.connectLayout.visibility = View.GONE
                 binding.messageLayout.visibility = View.VISIBLE
                 binding.editLayout.visibility = View.VISIBLE
-                binding.ip.text = getString(R.string.connected_server, ip)
+                binding.ip.text = getString(R.string.connected_server, binding.etconnect.text.toString())
             }
             else{
                 Toast.makeText(this, "Server not valid!", Toast.LENGTH_SHORT).show()
