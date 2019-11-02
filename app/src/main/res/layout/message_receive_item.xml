@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="message" type="project.app.pocketsocket.model.Message"/>
+    </data>
+
+    <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_round_grey">
+        <TextView
+                android:id="@+id/user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{message.user}"
+                android:textColor="#000000"
+                tools:text="User:"/>
+
+        <TextView
+                android:id="@+id/body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{message.body}"
+                android:textColor="#000000"
+                tools:text="Message Body"/>
+    </LinearLayout>
+
+</layout>

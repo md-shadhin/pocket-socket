@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import project.app.pocketsocket.model.Message
 import java.io.IOException
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
@@ -14,9 +15,10 @@ class ServerViewModel: ViewModel() {
     private var server: ServerSocket? = null
     private var scope: CoroutineScope = CoroutineScope(Job()+Dispatchers.IO)
     private var clientNo = 0
-    var messageFromClient : MutableLiveData<String> = MutableLiveData()
     private var toClient: ObjectOutputStream? = null
     private var fromClient: ObjectInputStream? = null
+    var messageData : MutableLiveData<Message> = MutableLiveData()
+
     init {
         try {
             server = ServerSocket(7777)
@@ -64,7 +66,7 @@ class ServerViewModel: ViewModel() {
             try {
                 while (true){
                     val message = fromClient?.readObject() as String
-                    messageFromClient.postValue("Client $clientNo: $message\n")
+                    messageData.postValue(Message(message, "Client $clientNo: ", 1))
                 }
             }
             catch (e: IOException){

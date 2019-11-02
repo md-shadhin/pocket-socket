@@ -8,4 +8,6 @@
     <string name="edit_hint">Write a message</string>
     <string name="connected_server">Connected server: %s\n</string>
     <string name="host_server">Server address: %s\n</string>
+    <string name="invalid_server">Server not valid!</string>
+    <string name="sender_label">Me:</string>
 </resources>
