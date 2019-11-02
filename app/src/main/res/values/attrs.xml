@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WaveView">
+        <attr format="color" name="wv_color"/>
+        <attr format="dimension" name="wv_strokeWidth"/>
+        <attr format="dimension" name="wv_radius"/>
+        <attr format="integer" name="wv_duration"/>
+        <attr format="integer" name="wv_waveAmount"/>
+        <attr format="float" name="wv_scale"/>
+        <attr format="enum" name="wv_type">
+            <enum name="fillWave" value="0"/>
+            <enum name="strokeWave" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>
