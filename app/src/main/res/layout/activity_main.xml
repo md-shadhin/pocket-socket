@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp">
+    <project.app.pocketsocket.utils.WaveView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/server_client_content"
+            app:wv_radius="32dp"
+            app:wv_duration="5000"
+            app:wv_scale="10">
 
-        <Button
+        <ImageView
                 android:id="@+id/server"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="100dp"
-                android:background="#00ffff"
-                android:text="@string/server_label"
-                android:padding="5dp"
-                android:textSize="20sp"
-                android:textStyle="bold|italic" />
-
-        <Button
-                android:id="@+id/client"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="#00ffff"
-                android:text="@string/client_label"
-                android:padding="5dp"
-                android:textSize="20sp"
-                android:textStyle="bold|italic" />
+                android:background="@drawable/server"
+                tools:ignore="ContentDescription"/>
 
-    </RelativeLayout>
+        <ImageView
+                android:id="@+id/client"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/client"
+                tools:ignore="ContentDescription"/>
+
+    </project.app.pocketsocket.utils.WaveView>
+
 </layout>
