@@ -1,7 +1,10 @@
 package project.app.pocketsocket.utils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.net.wifi.WifiManager
+import android.view.View
 import project.app.pocketsocket.R
 import java.net.InetAddress
 import java.net.UnknownHostException
@@ -42,5 +45,13 @@ object Util {
         } catch (e: UnknownHostException) {
             throw AssertionError()
         }
+    }
+
+    fun convertViewToBitmap(view: View): Bitmap {
+        val b = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+        val c = Canvas(b)
+        c.translate((-view.scrollX).toFloat(), (-view.scrollY).toFloat())
+        view.draw(c)
+        return b
     }
 }
