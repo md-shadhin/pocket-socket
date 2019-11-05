@@ -67,13 +67,35 @@ class ClientActivity : AppCompatActivity() {
             layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
         })
 
+        clientViewModel.messageDataList.observe(this, Observer {messageList ->
+            if(messageList.size > 0) {
+                messages.clear()
+                messages.addAll(messageList)
+                adapter.notifyDataSetChanged()
+                layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
+            }
+        })
+
+        binding.messageList.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if(messages.size > 0) {
+                if (oldBottom - bottom > 0) {
+                    layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
+                }
+            }
+        }
+
         binding.send.setOnClickListener {
             val message = binding.edit.text.toString()
-            clientViewModel.sendMessage(message)
+            clientViewModel.sendMessage(Message(message, getString(R.string.sender_label), 2))
             messages.add(Message(message, getString(R.string.sender_label), 2))
             adapter.notifyDataSetChanged()
             binding.edit.setText("")
             layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        clientViewModel.getMessageList()
     }
 }

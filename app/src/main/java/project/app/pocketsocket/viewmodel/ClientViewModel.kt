@@ -3,6 +3,7 @@ package project.app.pocketsocket.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import project.app.pocketsocket.model.Message
 import java.io.IOException
@@ -19,6 +20,8 @@ class ClientViewModel: ViewModel() {
     private var fromServer: ObjectInputStream? = null
     var isServerAvailable : MutableLiveData<Boolean> = MutableLiveData()
     var messageData : MutableLiveData<Message> = MutableLiveData()
+    var messageDataList : MutableLiveData<ArrayList<Message>> = MutableLiveData()
+    private val msgList = ArrayList<Message>()
 
     override fun onCleared() {
         super.onCleared()
@@ -56,6 +59,7 @@ class ClientViewModel: ViewModel() {
                 while (true){
                     val message = fromServer?.readObject() as String
                     messageData.postValue(Message(message, "Server: ", 1))
+                    msgList.add(Message(message, "Server: ", 1))
                 }
             }
             catch (e: IOException){
@@ -64,14 +68,21 @@ class ClientViewModel: ViewModel() {
         }
     }
 
-    fun sendMessage(message: String){
+    fun sendMessage(message: Message){
+        msgList.add(message)
         scope.launch {
             try {
-                toServer?.writeObject(message)
+                toServer?.writeObject(message.body)
                 toServer?.flush()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    fun getMessageList(){
+        viewModelScope.launch {
+            messageDataList.postValue(msgList)
         }
     }
 }
