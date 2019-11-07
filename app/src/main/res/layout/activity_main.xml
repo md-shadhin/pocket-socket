@@ -6,11 +6,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/server_client_content"
-            app:wv_radius="32dp"
+            app:wv_radius="100dp"
             app:wv_duration="5000"
-            app:wv_scale="10">
+            app:wv_scale="4">
 
         <ImageView
+                android:visibility="visible"
                 android:id="@+id/server"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -19,6 +20,7 @@
                 tools:ignore="ContentDescription"/>
 
         <ImageView
+                android:visibility="visible"
                 android:id="@+id/client"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
