@@ -49,15 +49,36 @@ class ServerActivity : AppCompatActivity() {
             layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
         })
 
+        serverViewModel.messageDataList.observe(this, Observer {messageList ->
+            if(messageList.size > 0) {
+                messages.clear()
+                messages.addAll(messageList)
+                adapter.notifyDataSetChanged()
+                layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
+            }
+        })
+
+        binding.messageList.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+            if(messages.size > 0) {
+                if (oldBottom - bottom > 0) {
+                    layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
+                }
+            }
+        }
+
         binding.send.setOnClickListener {
             val message = binding.edit.text.toString()
-            serverViewModel.sendMessage(message)
+            serverViewModel.sendMessage(Message(message, getString(R.string.sender_label), 2))
             messages.add(Message(message, getString(R.string.sender_label), 2))
             adapter.notifyDataSetChanged()
             binding.edit.setText("")
             layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        serverViewModel.getMessageList()
     }
 
 }

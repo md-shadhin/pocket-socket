@@ -3,6 +3,7 @@ package project.app.pocketsocket.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import project.app.pocketsocket.model.Message
 import java.io.IOException
@@ -18,6 +19,8 @@ class ServerViewModel: ViewModel() {
     private var toClient: ObjectOutputStream? = null
     private var fromClient: ObjectInputStream? = null
     var messageData : MutableLiveData<Message> = MutableLiveData()
+    var messageDataList : MutableLiveData<ArrayList<Message>> = MutableLiveData()
+    private val msgList = ArrayList<Message>()
 
     init {
         try {
@@ -67,6 +70,7 @@ class ServerViewModel: ViewModel() {
                 while (true){
                     val message = fromClient?.readObject() as String
                     messageData.postValue(Message(message, "Client $clientNo: ", 1))
+                    msgList.add(Message(message, "Client $clientNo: ", 1))
                 }
             }
             catch (e: IOException){
@@ -75,14 +79,21 @@ class ServerViewModel: ViewModel() {
         }
     }
 
-    fun sendMessage(message: String){
+    fun sendMessage(message: Message){
+        msgList.add(message)
         scope.launch {
             try {
-                toClient?.writeObject(message)
+                toClient?.writeObject(message.body)
                 toClient?.flush()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    fun getMessageList(){
+        viewModelScope.launch {
+            messageDataList.postValue(msgList)
         }
     }
 }
