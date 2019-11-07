@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import project.app.pocketsocket.BR
 import project.app.pocketsocket.R
 import project.app.pocketsocket.model.Message
+import project.app.pocketsocket.utils.Constants.RECEIVED_TYPE
 
 class MessageAdapter(private val dataList: ArrayList<Message>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if(viewType == 1){
+        return if(viewType == RECEIVED_TYPE){
             ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.message_receive_item, parent, false))
         }
         else{

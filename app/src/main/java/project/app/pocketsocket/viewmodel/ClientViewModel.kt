@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import project.app.pocketsocket.model.Message
+import project.app.pocketsocket.utils.Constants.RECEIVED_TYPE
 import java.io.IOException
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
@@ -58,8 +59,8 @@ class ClientViewModel: ViewModel() {
             try {
                 while (true){
                     val message = fromServer?.readObject() as String
-                    messageData.postValue(Message(message, "Server: ", 1))
-                    msgList.add(Message(message, "Server: ", 1))
+                    messageData.postValue(Message(message, "Server: ", RECEIVED_TYPE))
+                    msgList.add(Message(message, "Server: ", RECEIVED_TYPE))
                 }
             }
             catch (e: IOException){

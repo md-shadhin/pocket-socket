@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import project.app.pocketsocket.R
 import project.app.pocketsocket.databinding.TextBinding
 import project.app.pocketsocket.model.Message
+import project.app.pocketsocket.utils.Constants.SENT_TYPE
 import project.app.pocketsocket.utils.Util
 import project.app.pocketsocket.viewmodel.ClientViewModel
 
@@ -86,8 +87,8 @@ class ClientActivity : AppCompatActivity() {
 
         binding.send.setOnClickListener {
             val message = binding.edit.text.toString()
-            clientViewModel.sendMessage(Message(message, getString(R.string.sender_label), 2))
-            messages.add(Message(message, getString(R.string.sender_label), 2))
+            clientViewModel.sendMessage(Message(message, getString(R.string.sender_label), SENT_TYPE))
+            messages.add(Message(message, getString(R.string.sender_label), SENT_TYPE))
             adapter.notifyDataSetChanged()
             binding.edit.setText("")
             layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
