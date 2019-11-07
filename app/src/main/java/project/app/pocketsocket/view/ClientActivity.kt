@@ -76,7 +76,7 @@ class ClientActivity : AppCompatActivity() {
             }
         })
 
-        binding.messageList.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+        binding.messageList.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
             if(messages.size > 0) {
                 if (oldBottom - bottom > 0) {
                     layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
