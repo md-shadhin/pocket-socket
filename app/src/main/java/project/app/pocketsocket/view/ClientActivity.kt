@@ -1,6 +1,7 @@
 package project.app.pocketsocket.view
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +34,19 @@ class ClientActivity : AppCompatActivity() {
             val prefix = ip.substring(0, ip.lastIndexOf(".") + 1)
             binding.etconnect.setText(prefix)
             binding.btconnect.setOnClickListener {
-                clientViewModel.connection(binding.etconnect.text.toString())
+                if(TextUtils.isEmpty(binding.name.text.toString())){
+                    binding.name.error = "Cannot be empty"
+                    return@setOnClickListener
+                }
+
+                if(TextUtils.isEmpty(binding.etconnect.text.toString())){
+                    binding.etconnect.error = "Cannot be empty"
+                    return@setOnClickListener
+                }
+
+                else{
+                    clientViewModel.connection(binding.etconnect.text.toString())
+                }
             }
         }
         clientViewModel.isServerAvailable.observe(this, Observer {isServerAvailable ->
