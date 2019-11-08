@@ -3,7 +3,6 @@ package project.app.pocketsocket.view
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -58,7 +57,7 @@ class ClientActivity : AppCompatActivity() {
                 binding.edit.requestFocus()
             }
             else{
-                Toast.makeText(this, getString(R.string.invalid_server), Toast.LENGTH_SHORT).show()
+                binding.etconnect.error = getString(R.string.invalid_server)
                 binding.connectLayout.visibility = View.VISIBLE
                 binding.messageList.visibility = View.GONE
                 binding.editLayout.visibility = View.GONE
