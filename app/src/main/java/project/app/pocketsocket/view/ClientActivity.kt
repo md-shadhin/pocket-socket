@@ -75,9 +75,17 @@ class ClientActivity : AppCompatActivity() {
         binding.messageList.adapter = adapter
 
         clientViewModel.messageData.observe(this, Observer {message ->
-            messages.add(message)
-            adapter.notifyDataSetChanged()
-            layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
+            if(message.errorStatus){
+                binding.edit.textSize = 14f
+                binding.edit.setText(message.errorMessage)
+                binding.edit.isEnabled = false
+                binding.send.isEnabled = false
+            }
+            else {
+                messages.add(message)
+                adapter.notifyDataSetChanged()
+                layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)
+            }
         })
 
         clientViewModel.messageDataList.observe(this, Observer {messageList ->

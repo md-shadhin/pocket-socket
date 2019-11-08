@@ -64,7 +64,7 @@ class ClientViewModel: ViewModel() {
                 }
             }
             catch (e: IOException){
-                e.printStackTrace()
+                messageData.postValue(Message("Server disconnected! Leave this room"))
             }
         }
     }
