@@ -24,13 +24,6 @@
                 android:padding="10dp"
                 android:orientation="horizontal"
                 android:background="@drawable/bg_round_green">
-            <TextView
-                    android:id="@+id/user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{message.user}"
-                    android:textColor="#ffffff"
-                    tools:text="User:"/>
 
             <TextView
                     android:id="@+id/body"
@@ -39,6 +32,7 @@
                     android:text="@{message.body}"
                     android:textColor="#ffffff"
                     tools:text="Message Body"/>
+
         </LinearLayout>
 
     </LinearLayout>

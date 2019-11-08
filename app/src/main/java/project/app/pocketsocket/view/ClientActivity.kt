@@ -20,6 +20,7 @@ class ClientActivity : AppCompatActivity() {
 
     private lateinit var binding: TextBinding
     private lateinit var clientViewModel: ClientViewModel
+    private lateinit var name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,8 @@ class ClientActivity : AppCompatActivity() {
                 }
 
                 else{
-                    clientViewModel.connection(binding.etconnect.text.toString())
+                    name = binding.name.text.toString().trim()
+                    clientViewModel.connection(binding.etconnect.text.toString().trim())
                 }
             }
         }
@@ -106,9 +108,10 @@ class ClientActivity : AppCompatActivity() {
         }
 
         binding.send.setOnClickListener {
-            val message = binding.edit.text.toString()
-            clientViewModel.sendMessage(Message(message, getString(R.string.sender_label), SENT_TYPE))
-            messages.add(Message(message, getString(R.string.sender_label), SENT_TYPE))
+            val messageBody = binding.edit.text.toString()
+            val message = Message(messageBody, name, SENT_TYPE)
+            clientViewModel.sendMessage(message)
+            messages.add(message)
             adapter.notifyDataSetChanged()
             binding.edit.setText("")
             layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)

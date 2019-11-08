@@ -1,5 +1,7 @@
 package project.app.pocketsocket.model
 
+import com.google.gson.GsonBuilder
+
 class Message{
     var body: String
     var user: String
@@ -23,5 +25,8 @@ class Message{
         this.errorMessage = errorMessage
     }
 
-
+    override fun toString(): String {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        return gson.toJson(this)
+    }
 }

@@ -68,9 +68,10 @@ class ServerActivity : AppCompatActivity() {
         }
 
         binding.send.setOnClickListener {
-            val message = binding.edit.text.toString()
-            serverViewModel.sendMessage(Message(message, getString(R.string.sender_label), SENT_TYPE))
-            messages.add(Message(message, getString(R.string.sender_label), SENT_TYPE))
+            val messageBody = binding.edit.text.toString()
+            val message = Message(messageBody, "Server", SENT_TYPE)
+            serverViewModel.sendMessage(message)
+            messages.add(message)
             adapter.notifyDataSetChanged()
             binding.edit.setText("")
             layoutManager.smoothScrollToPosition(binding.messageList, RecyclerView.State(), messages.size - 1)

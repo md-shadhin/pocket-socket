@@ -9,7 +9,7 @@
     <string name="connected_server">Connected server: %s\n</string>
     <string name="host_server">Server address: %s\n</string>
     <string name="invalid_server">Server not valid!</string>
-    <string name="sender_label">Me:</string>
     <string name="name_hint">Your Name</string>
     <string name="empty_field">Cannot be empty</string>
+    <string name="colon_divider">:</string>
 </resources>

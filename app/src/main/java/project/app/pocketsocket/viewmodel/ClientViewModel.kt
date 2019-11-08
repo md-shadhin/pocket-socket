@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import kotlinx.coroutines.*
 import project.app.pocketsocket.model.Message
 import project.app.pocketsocket.utils.Constants.RECEIVED_TYPE
@@ -59,8 +60,10 @@ class ClientViewModel: ViewModel() {
             try {
                 while (true){
                     val message = fromServer?.readObject() as String
-                    messageData.postValue(Message(message, "Server: ", RECEIVED_TYPE))
-                    msgList.add(Message(message, "Server: ", RECEIVED_TYPE))
+                    val msgObj = toObj(message)
+                    msgObj.type = RECEIVED_TYPE
+                    messageData.postValue(msgObj)
+                    msgList.add(msgObj)
                 }
             }
             catch (e: IOException){
@@ -69,11 +72,15 @@ class ClientViewModel: ViewModel() {
         }
     }
 
+    private fun toObj(msg: String): Message{
+        return Gson().fromJson(msg, Message::class.java)
+    }
+
     fun sendMessage(message: Message){
         msgList.add(message)
         scope.launch {
             try {
-                toServer?.writeObject(message.body)
+                toServer?.writeObject(message.toString())
                 toServer?.flush()
             } catch (e: IOException) {
                 e.printStackTrace()
