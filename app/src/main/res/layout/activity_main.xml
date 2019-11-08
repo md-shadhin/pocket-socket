@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <project.app.pocketsocket.utils.WaveView
@@ -8,6 +9,7 @@
             android:id="@+id/server_client_content"
             app:wv_radius="100dp"
             app:wv_duration="5000"
+            android:background="#70CDDD"
             app:wv_scale="4">
 
         <ImageView

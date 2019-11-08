@@ -20,7 +20,7 @@
                 android:id="@+id/edit_layout"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:background="#689F38"
+                android:background="@color/colorPrimary"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -30,10 +30,10 @@
                     android:id="@+id/edit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.80"
+                    android:layout_weight="0.90"
                     android:textColorHint="#CFD8DC"
                     android:textColor="#CFD8DC"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:hint="@string/edit_hint"
                     tools:ignore="Autofill"/>
 
@@ -41,46 +41,107 @@
                     android:id="@+id/send"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.20"
+                    android:layout_weight="0.10"
+                    android:background="@color/colorPrimary"
                     android:src="@android:drawable/ic_menu_send"
                     tools:ignore="ContentDescription"/>
         </LinearLayout>
 
-        <RelativeLayout
+        <ScrollView
                 android:visibility="visible"
-                android:id="@+id/connect_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp">
-
-            <EditText
-                    android:id="@+id/etconnect"
+                    android:id="@+id/connect_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#70CDDD">
+            <RelativeLayout
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="100dp"
-                    android:inputType="textUri"
-                    android:text=""
-                    android:hint="@string/connect_input_hint"
-                    android:padding="5dp"
-                    android:textSize="20sp"
-                    android:textStyle="bold|italic"
-                    tools:ignore="Autofill"/>
+                    android:orientation="vertical"
+                    android:scrollbarAlwaysDrawVerticalTrack="true">
 
-            <Button
-                    android:id="@+id/btconnect"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="#00ffff"
-                    android:text="@string/connect_label"
-                    android:padding="5dp"
-                    android:textSize="20sp"
-                    android:textStyle="bold|italic" />
+                <TextView
+                        android:id="@+id/connect_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/connect_label"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
 
-        </RelativeLayout>
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/connect_title"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginTop="70dp"
+                        android:background="#fff"
+                        android:elevation="4dp"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingTop="30dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            <EditText
+                                    android:id="@+id/name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:hint="@string/name_hint"
+                                    android:inputType="text"
+                                    tools:ignore="Autofill"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            <EditText
+                                    android:id="@+id/etconnect"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:singleLine="true"
+                                    android:hint="@string/connect_input_hint"
+                                    android:inputType="textUri"
+                                    tools:ignore="Autofill"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <Button
+                                android:id="@+id/btconnect"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="22dp"
+                                android:background="#70CDDD"
+                                android:text="@string/connect_label"
+                                android:textAllCaps="false"
+                                android:textSize="18sp"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold|italic"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <ImageButton
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_below="@id/connect_title"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="16dp"
+                        android:background="@mipmap/ic_launcher_round"
+                        android:elevation="4dp"
+                        tools:ignore="ContentDescription"/>
+            </RelativeLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
