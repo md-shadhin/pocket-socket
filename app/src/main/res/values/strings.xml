@@ -11,4 +11,5 @@
     <string name="invalid_server">Server not valid!</string>
     <string name="sender_label">Me:</string>
     <string name="name_hint">Your Name</string>
+    <string name="empty_field">Cannot be empty</string>
 </resources>

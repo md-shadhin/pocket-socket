@@ -34,12 +34,12 @@ class ClientActivity : AppCompatActivity() {
             binding.etconnect.setText(prefix)
             binding.btconnect.setOnClickListener {
                 if(TextUtils.isEmpty(binding.name.text.toString())){
-                    binding.name.error = "Cannot be empty"
+                    binding.name.error = getString(R.string.empty_field)
                     return@setOnClickListener
                 }
 
                 if(TextUtils.isEmpty(binding.etconnect.text.toString())){
-                    binding.etconnect.error = "Cannot be empty"
+                    binding.etconnect.error = getString(R.string.empty_field)
                     return@setOnClickListener
                 }
 
