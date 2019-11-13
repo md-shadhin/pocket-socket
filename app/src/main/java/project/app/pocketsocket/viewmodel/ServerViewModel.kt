@@ -12,17 +12,22 @@ import java.io.IOException
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.ServerSocket
+import java.net.Socket
 
 class ServerViewModel: ViewModel() {
 
     private var server: ServerSocket? = null
+    private val allClients = ArrayList<ClientHandler>()
     private var scope: CoroutineScope = CoroutineScope(Job()+Dispatchers.IO)
-    private var clientNo = 0
-    private var toClient: ObjectOutputStream? = null
-    private var fromClient: ObjectInputStream? = null
-    var messageData : MutableLiveData<Message> = MutableLiveData()
-    var messageDataList : MutableLiveData<ArrayList<Message>> = MutableLiveData()
     private val msgList = ArrayList<Message>()
+    val messageData : MutableLiveData<Message> = MutableLiveData()
+    val messageDataList : MutableLiveData<ArrayList<Message>> = MutableLiveData()
+
+    companion object{
+        fun toObj(msg: String): Message{
+            return Gson().fromJson(msg, Message::class.java)
+        }
+    }
 
     init {
         try {
@@ -39,8 +44,14 @@ class ServerViewModel: ViewModel() {
         scope.cancel()
         try {
             server?.close()
-            fromClient?.close()
-            toClient?.close()
+            allClients.forEach { client ->
+                client.socket?.close()
+                client.fromClient?.close()
+                client.toClient?.close()
+            }
+
+            allClients.clear()
+            msgList.clear()
             Log.d("ServerViewModel", "Server closed!")
         }
         catch (e: IOException){
@@ -53,55 +64,74 @@ class ServerViewModel: ViewModel() {
             try {
                 while (true){
                     val socket = server?.accept()
-                    Log.d("ServerViewModel", "Server started!")
-                    fromClient = ObjectInputStream(socket?.getInputStream())
-                    toClient = ObjectOutputStream(socket?.getOutputStream())
-                    clientNo++
-                    receiveMessage()
+                    val fromClient = ObjectInputStream(socket?.getInputStream())
+                    val toClient = ObjectOutputStream(socket?.getOutputStream())
+
+                    val client = ClientHandler(socket, toClient, fromClient, this, messageData, msgList, allClients)
+                    client.start()
+                    allClients.add(client)
                 }
             }
             catch (e: IOException){
-                Log.d("ServerViewModel", "Server could not be started: $e")
+                //e.printStackTrace()
             }
         }
-    }
-
-    private fun receiveMessage(){
-        scope.launch {
-            try {
-                while (true){
-                    val message = fromClient?.readObject() as String
-                    val msgObj = toObj(message)
-                    msgObj.type = RECEIVED_TYPE
-                    messageData.postValue(msgObj)
-                    msgList.add(msgObj)
-                }
-            }
-            catch (e: IOException){
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private fun toObj(msg: String): Message{
-        return Gson().fromJson(msg, Message::class.java)
     }
 
     fun sendMessage(message: Message){
         msgList.add(message)
         scope.launch {
             try {
-                toClient?.writeObject(message.toString())
-                toClient?.flush()
+                allClients.forEach { client ->
+                    client.socket?.isClosed?.let {isClosed ->
+                        if(!isClosed) {
+                            client.toClient?.writeObject(message.toString())
+                            client.toClient?.flush()
+                        }
+                    }
+                }
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
+
     }
 
     fun getMessageList(){
         viewModelScope.launch {
             messageDataList.postValue(msgList)
+        }
+    }
+
+    class ClientHandler(val socket: Socket?, val toClient: ObjectOutputStream?, val fromClient: ObjectInputStream?,
+                        private val scope: CoroutineScope, private val messageData : MutableLiveData<Message>,
+                        private val msgList: ArrayList<Message>, private val allClients: ArrayList<ClientHandler>){
+
+        fun start() {
+            scope.launch {
+                try {
+                    while (true) {
+                        val message = fromClient?.readObject() as String
+                        val msgObj = toObj(message)
+                        msgObj.type = RECEIVED_TYPE
+                        messageData.postValue(msgObj)
+                        msgList.add(msgObj)
+                        allClients.forEach { client ->
+                            if(!client.socket?.isClosed!!) {
+                                if (!client.fromClient?.equals(fromClient)!!) {
+                                    client.toClient?.writeObject(message)
+                                    client.toClient?.flush()
+                                }
+                            }
+                            else{
+                                allClients.remove(client)
+                            }
+                        }
+                    }
+                } catch (e: IOException) {
+                    allClients.remove(this@ClientHandler)
+                }
+            }
         }
     }
 }
